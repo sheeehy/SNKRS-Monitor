@@ -1,6 +1,7 @@
 import Reddit from "./assets/1658834703reddit-icon.png";
 import Jordans from "./assets/Air-Jordan-1-Chicago-Lost-and-Found-DZ5485-612-Release-Date-4-1068x762.jpeg";
 import SNKRS from "./assets/snkrs-mobile-logo-88EC2AF8B0-seeklogo.com.png";
+import { IoMdMail } from "react-icons/io";
 
 import "./App.css";
 
@@ -57,7 +58,9 @@ function App() {
             </button>
           </div>
           <footer className="fixed bottom-0 p-4 text-2xl text-center text-white">
-            <a href="mailto:snkrs.reddit@gmail.com">Mail</a>
+            <a href="mailto:snkrs.reddit@gmail.com">
+              <IoMdMail />
+            </a>
           </footer>
         </main>
       </div>
