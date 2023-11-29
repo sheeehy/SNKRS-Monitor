@@ -46,10 +46,10 @@ function App() {
               />
             </a>
           </div>
-          <h1 className="font-Josefin-Sans pb-0 pt-36 text-center text-8xl font-bold text-white sm:text-left">Coming Soon</h1>
+          <h1 className="font-Josefin-Sans pt-24 sm:pt-36 text-center text-8xl font-bold text-white sm:text-left">Coming Soon</h1>
 
           <h2 className="max-w-md  text-center text-xl text-white opacity-80">
-            Never miss a restock. Real-time monitoring of SNKRS drops. Get instant updates on all kinds of drops over email or text, for free.
+            Never miss a restock. Real-time monitoring of SNKRS drops. Get instant updates on all kinds of releases over email or text, for free.
           </h2>
           <div className="flex flex-col items-center space-y-2 pt-12">
             <input className="h-10 w-64 rounded-md border-0 bg-zinc-900 px-2 py-1 text-white placeholder-zinc-400" type="email" placeholder="Email" />
@@ -58,7 +58,7 @@ function App() {
             </button>
           </div>
 
-          <footer className="fixed bottom-0 p-4 text-2xl text-center text-white">
+          <footer className=" bottom-0 p-4 pt-52 text-2xl text-center text-white">
             <a href="mailto:snkrs.reddit@gmail.com">
               <IoMdMail />
             </a>
