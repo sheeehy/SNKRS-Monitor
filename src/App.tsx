@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import Reddit from "./assets/1658834703reddit-icon.png";
 import Jordans from "./assets/Air-Jordan-1-Chicago-Lost-and-Found-DZ5485-612-Release-Date-4-1068x762.jpeg";
 import SNKRS from "./assets/snkrs-mobile-logo-88EC2AF8B0-seeklogo.com.png";
@@ -6,6 +8,41 @@ import { IoMdMail } from "react-icons/io";
 import "./App.css";
 
 function App() {
+  const [email, setEmail] = useState<string>("");
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
+  const [isTouched, setIsTouched] = useState<boolean>(false);
+
+  const handleSubmit = () => {
+    setIsTouched(true); // Mark the input as touched upon submission
+    if (email.trim() !== "" && isValidEmail) {
+      const existingEmails = JSON.parse(localStorage.getItem("emails") || "[]");
+      const updatedEmails = [...existingEmails, email];
+      localStorage.setItem("emails", JSON.stringify(updatedEmails));
+      setEmail("");
+      setIsSubmitted(true);
+      setIsValidEmail(true);
+    } else {
+      setIsSubmitted(false);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    validateEmail(value);
+  };
+
+  const validateEmail = (email: string) => {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsValidEmail(pattern.test(email));
+  };
+
   return (
     <>
       <header>
@@ -51,14 +88,29 @@ function App() {
           <h2 className="max-w-md  text-center text-xl text-white opacity-80">
             Never miss a restock. Real-time monitoring of SNKRS drops. Get instant updates on all kinds of releases over email or text, for free.
           </h2>
+
           <div className="flex flex-col items-center space-y-2 pt-12">
-            <input className="h-10 w-64 rounded-md border-0 bg-zinc-900 px-2 py-1 text-white placeholder-zinc-400" type="email" placeholder="Email" />
-            <button className="py-1.5 w-40 border-2 rounded-md border-white bg-white text-black" type="submit">
+            <input
+              className={`h-10 w-64 rounded-md border-0 bg-zinc-900 px-2 py-1 text-white placeholder-zinc-400 ${!isValidEmail && isTouched ? "border-red-500" : ""}`}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => handleEmailChange(e.target.value)}
+              onKeyPress={handleKeyPress}
+              onBlur={() => setIsTouched(true)} // Mark input as touched when user leaves the field
+            />
+            {!isValidEmail && isTouched && <p className="text-red-500 text-sm mt-2">Please enter a valid email address.</p>}
+            <button className="py-1.5 w-40 border-2 rounded-md border-white bg-white text-black" type="button" onClick={handleSubmit}>
               Join the waitlist
             </button>
+            {isSubmitted && (
+              <div className="text-green-500 text-center mt-2">
+                <p>Thank you for joining the waitlist!</p>
+              </div>
+            )}
           </div>
 
-          <footer className=" bottom-0 p-4 pt-52 text-2xl text-center text-white">
+          <footer className="bottom-0 p-4 pt-36 sm:pt-52 text-2xl text-center text-white">
             <a href="mailto:snkrs.reddit@gmail.com">
               <IoMdMail />
             </a>
