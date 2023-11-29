@@ -53,7 +53,7 @@ function App() {
           </h2>
           <div className="flex w-full max-w-md items-center space-x-2 pt-8">
             <input className="h-10 w-64 rounded-md border-0 bg-zinc-900 px-2 py-1 text-white placeholder-zinc-400 " type="email" placeholder="Email " />
-            <button className="py-1.5 w-40 border-2 rounded-md border-white bg-white text-black" type="submit">
+            <button className="py-1.5 w-40  border-2 rounded-md border-white bg-white text-black" type="submit">
               Join the waitlist
             </button>
           </div>
