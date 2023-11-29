@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Reddit from "./assets/1658834703reddit-icon.png";
 import Jordans from "./assets/Air-Jordan-1-Chicago-Lost-and-Found-DZ5485-612-Release-Date-4-1068x762.jpeg";
 import SNKRS from "./assets/snkrs-mobile-logo-88EC2AF8B0-seeklogo.com.png";
