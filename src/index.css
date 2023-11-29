@@ -1,0 +1,11 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+body {
+  font-family: "Josefin Sans", sans-serif;
+}
+
+h1 {
+  font-family: "Bebas Neue", sans-serif;
+}
