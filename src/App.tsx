@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import Reddit from "./assets/1658834703reddit-icon.png";
 import Jordans from "./assets/Air-Jordan-1-Chicago-Lost-and-Found-DZ5485-612-Release-Date-4-1068x762.jpeg";
@@ -7,40 +8,44 @@ import { IoMdMail } from "react-icons/io";
 
 import "./App.css";
 
-function App() {
-  const [email, setEmail] = useState<string>("");
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
-  const [isTouched, setIsTouched] = useState<boolean>(false);
+import { Formik, Form, Field, ErrorMessage } from "formik";
+interface FormData {
+  email: string;
+}
 
-  const handleSubmit = () => {
-    setIsTouched(true); // Mark the input as touched upon submission
-    if (email.trim() !== "" && isValidEmail) {
+function App() {
+  const initialValues: FormData = {
+    email: "",
+  };
+
+  const [joined, setJoined] = useState(false);
+
+  const onSubmit = (values: FormData, { setSubmitting, resetForm }: any) => {
+    const { email } = values;
+
+    // Simulate API request or any async operation here
+    setTimeout(() => {
       const existingEmails = JSON.parse(localStorage.getItem("emails") || "[]");
       const updatedEmails = [...existingEmails, email];
       localStorage.setItem("emails", JSON.stringify(updatedEmails));
-      setEmail("");
-      setIsSubmitted(true);
-      setIsValidEmail(true);
-    } else {
-      setIsSubmitted(false);
+
+      // After successful submission
+      setSubmitting(false);
+      resetForm();
+      setJoined(true);
+    }, 1000);
+  };
+
+  const validate = (values: FormData) => {
+    const errors: Partial<FormData> = {};
+
+    if (!values.email.trim()) {
+      errors.email = ""; // Error flag for required field
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      errors.email = ""; // Error flag for invalid email format
     }
-  };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
-  };
-
-  const handleEmailChange = (value: string) => {
-    setEmail(value);
-    validateEmail(value);
-  };
-
-  const validateEmail = (email: string) => {
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setIsValidEmail(pattern.test(email));
+    return errors;
   };
 
   return (
@@ -58,7 +63,7 @@ function App() {
       </header>
       <div className="font-josefin flex min-h-screen select-none bg-[#F5F5F5]">
         {/* Left side - Hidden on small screens */}
-        <div className="hidden md:flex md:flex-1 md:flex-col md:items-center md:justify-center">
+        <div className="hidden md:flex md:flex-1 md:flex-col md:items-center md:jusqtify-center">
           <h1 className="px-4 pb-6 pt-48 text-center text-8xl font-bold text-[black]">
             A Real-Time <span className="  text-8xl text-[#c70b14]">SNKRS</span> Monitor, for free.
           </h1>
@@ -90,26 +95,23 @@ function App() {
           </h2>
 
           <div className="flex flex-col items-center space-y-2 pt-12">
-            <input
-              className={`h-10 w-64 rounded-md border-0 bg-zinc-900 px-2 py-1 text-white placeholder-zinc-400 ${!isValidEmail && isTouched ? "border-red-500" : ""}`}
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => handleEmailChange(e.target.value)}
-              onKeyPress={handleKeyPress}
-              onBlur={() => setIsTouched(true)} // Mark input as touched when user leaves the field
-            />
-            {!isValidEmail && isTouched && <p className="text-red-500 text-sm mt-2">Please enter a valid email address.</p>}
-            <button className="py-1.5 w-40 border-2 rounded-md border-white bg-white text-black" type="button" onClick={handleSubmit}>
-              Join the waitlist
-            </button>
-            {isSubmitted && (
-              <div className="text-green-500 text-center mt-2">
-                <p>Thank you for joining the waitlist!</p>
-              </div>
-            )}
+            <Formik initialValues={initialValues} onSubmit={onSubmit} validate={validate}>
+              {({ isSubmitting }) => (
+                <Form>
+                  <div className="flex flex-col items-center space-y-2">
+                    <Field type="email" name="email" placeholder="Email" className="w-64 p-1 rounded-md" />
+                    <ErrorMessage name="email" component="div" className="text-red-500" />
+                    {!joined && (
+                      <button type="submit" disabled={isSubmitting} className="text-white rounded-lg  bg-slate-950 p-2 border border-black">
+                        {isSubmitting ? "Submitting..." : "Join the waitlist"}
+                      </button>
+                    )}
+                    {joined && <p>✓ Successfully Joined the Waitlist</p>}
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
-
           <footer className="bottom-0 p-4 pt-36 sm:pt-52 text-2xl text-center text-white">
             <a href="mailto:snkrs.reddit@gmail.com">
               <IoMdMail />
