@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios, { AxiosResponse } from "axios"; // Import AxiosResponse for typing the response
 
 import Reddit from "./assets/1658834703reddit-icon.png";
 import Jordans from "./assets/Air-Jordan-1-Chicago-Lost-and-Found-DZ5485-612-Release-Date-4-1068x762.jpeg";
@@ -8,6 +9,7 @@ import { IoMdMail } from "react-icons/io";
 import "./App.css";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
+
 interface FormData {
   email: string;
 }
@@ -19,29 +21,34 @@ function App() {
 
   const [joined, setJoined] = useState(false);
 
-  const onSubmit = (values: FormData, { setSubmitting, resetForm }: any) => {
+  const onSubmit = async (values: FormData, { setSubmitting, resetForm }: any) => {
     const { email } = values;
 
-    // Simulate API request or any async operation here
-    setTimeout(() => {
-      const existingEmails = JSON.parse(localStorage.getItem("emails") || "[]");
-      const updatedEmails = [...existingEmails, email];
-      localStorage.setItem("emails", JSON.stringify(updatedEmails));
+    try {
+      const response: AxiosResponse<any> = await axios.post("/saveEmail", { email }); // Update URL appropriately
 
-      // After successful submission
+      if (response.status === 200) {
+        // Handle successful response, maybe show a success message
+        setJoined(true);
+      } else {
+        // Handle other status codes or errors
+      }
+    } catch (error) {
+      // Handle fetch-related errors
+      console.error("Error saving email:", error);
+    } finally {
       setSubmitting(false);
       resetForm();
-      setJoined(true);
-    }, 1000);
+    }
   };
 
   const validate = (values: FormData) => {
     const errors: Partial<FormData> = {};
 
     if (!values.email.trim()) {
-      errors.email = ""; // Error flag for required field
+      errors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-      errors.email = ""; // Error flag for invalid email format
+      errors.email = "Invalid email format";
     }
 
     return errors;
@@ -88,9 +95,8 @@ function App() {
             </a>
           </div>
           <h1 className="font-Josefin-Sans pt-24 sm:pt-36 text-center text-8xl font-bold text-white sm:text-left">Coming Soon</h1>
-
           <h2 className="max-w-md  text-center text-xl text-white opacity-80">
-            Never miss a restock. Real-time monitoring of SNKRS drops. Get instant updates on all kinds of releases over email or text, for free.
+            A 100% Free Real-Time SNKRS Monitor. Get instant updates on releases, shock drops, and more, over email or text, for free.
           </h2>
 
           <div className="flex flex-col items-center space-y-2 pt-12">
