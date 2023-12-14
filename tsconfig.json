@@ -7,6 +7,8 @@
     "skipLibCheck": true,
     "jsx": "react",
     "types": ["node", "axios"],
+    "allowSyntheticDefaultImports": true,
+
     
 
     /* Bundler mode */
