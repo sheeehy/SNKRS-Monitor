@@ -6,10 +6,11 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "jsx": "react",
-
+    "types": ["node", "axios"],
+    
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
