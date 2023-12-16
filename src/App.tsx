@@ -87,7 +87,7 @@ function App() {
           </div>
           <h1 className="font-Josefin-Sans pt-24 sm:pt-36 text-center text-8xl font-bold text-white sm:text-left">Coming Soon</h1>
           <h2 className="max-w-md  text-center text-xl text-white opacity-80">
-            A 100% Free Real-Time SNKRS Monitor. Get instant updates on releases, shock drops, and more, over email or text, for free.
+            A 100% Free Real-Time SNKRS Monitor. Get instant updates on restocks, shock drops, and more, over email or text, for free.
           </h2>
 
           <div className="flex flex-col items-center space-y-2 pt-12">
