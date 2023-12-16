@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios, { AxiosResponse } from "axios"; // Import AxiosResponse for typing the response
+import axios from "axios"; // Import AxiosResponse for typing the response
 
 import Reddit from "./assets/1658834703reddit-icon.png";
 import Jordans from "./assets/Air-Jordan-1-Chicago-Lost-and-Found-DZ5485-612-Release-Date-4-1068x762.jpeg";
@@ -21,24 +21,15 @@ function App() {
 
   const [joined, setJoined] = useState(false);
 
-  const onSubmit = async (values: FormData, { setSubmitting, resetForm }: any) => {
+  const onSubmit = async (values: FormData, {}: any) => {
     const { email } = values;
 
     try {
-      const response: AxiosResponse<any> = await axios.post("/saveEmail", { email }); // Update URL appropriately
-
-      if (response.status === 200) {
-        // Handle successful response, maybe show a success message
-        setJoined(true);
-      } else {
-        // Handle other status codes or errors
-      }
+      const response = await axios.post("https://rocky-gorge-06604-85402b94c22b.herokuapp.com/api/emails", { email });
+      console.log(response.data);
+      setJoined(true);
     } catch (error) {
-      // Handle fetch-related errors
-      console.error("Error saving email:", error);
-    } finally {
-      setSubmitting(false);
-      resetForm();
+      console.error(error);
     }
   };
 
